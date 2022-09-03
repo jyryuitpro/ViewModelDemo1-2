@@ -3,6 +3,7 @@ package com.example.viewmodeldemo1
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.example.viewmodeldemo1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -10,14 +11,15 @@ class MainActivity : AppCompatActivity() {
     // Please do "Build => Clean Project" and "Build => Rebuild Project" before run the code 
 
     private lateinit var binding: ActivityMainBinding
-    private var count = 0
+    private lateinit var viewModel: MainActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.countText.text = count.toString()
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        binding.countText.text = viewModel.getCurrentCount().toString()
         binding.button.setOnClickListener {
-            count++
-            binding.countText.text = count.toString()
+            binding.countText.text = viewModel.getUpdatedCount().toString()
         }
     }
 }
